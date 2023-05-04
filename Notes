@@ -6,6 +6,26 @@ docker run -d -p 5000:5000 k8s-flask-webapp
 ## K8s image
 cheesburger/k8s-flask-webapp
 
+# Minikube commands to forward traffic to load-balancer
+# in build-mainifest-v3.yaml
+minikube service <insert service name>
+~/k8s-web-app
+╰─ minikube service flaskwebapp-loadbalancer
+|-----------|--------------------------|----------------------|---------------------------|
+| NAMESPACE |           NAME           |     TARGET PORT      |            URL            |
+|-----------|--------------------------|----------------------|---------------------------|
+| default   | flaskwebapp-loadbalancer | http-loadbalancer/80 | http://192.168.49.2:31375 |
+|-----------|--------------------------|----------------------|---------------------------|
+🏃  Starting tunnel for service flaskwebapp-loadbalancer.
+|-----------|--------------------------|-------------|------------------------|
+| NAMESPACE |           NAME           | TARGET PORT |          URL           |
+|-----------|--------------------------|-------------|------------------------|
+| default   | flaskwebapp-loadbalancer |             | http://127.0.0.1:61483 |
+|-----------|--------------------------|-------------|------------------------|
+🎉  Opening service default/flaskwebapp-loadbalancer in default browser...
+❗  Because you are using a Docker driver on darwin, the terminal needs to be open to run it.
+
+
 ## K8 commands
 minikube start --driver=docker  
 

@@ -20,5 +20,5 @@ spec:
       containers: 
       - name: flask-container
         image: cheesburger/k8s-flask-webapp
-        ports: 
-        - containerPort: 5000
+        ports: # open basic web traffic
+        - containerPort: 80
