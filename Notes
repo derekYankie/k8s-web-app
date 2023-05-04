@@ -1,0 +1,5 @@
+## Docker Commands
+docker images
+docker build -t k8s-flask-webapp .
+docker run -d -p 5000:5000 k8s-flask-webapp
+
