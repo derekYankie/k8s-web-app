@@ -1,0 +1,27 @@
+# Deployment Manifest
+apiVersion: apps/v1 # Provides backwards compatibility with different k8s versions
+kind: Deployment
+metadata:
+  name: flaskwebapp-deployment
+  labels:
+    app: flask-webapp
+    tier: frontend
+spec: # Replication controller
+  replicas: 1
+  selector:
+    matchLabels: # Adopts labels from Pod Template below
+      app: flask-webapp
+      tier: frontend
+  template: # Template for my pods
+    metadata:
+      labels:
+        app: flask-webapp
+        tier: frontend
+    spec: # Single container Pod spec
+      containers: 
+      - name: flask-container
+        image: cheesburger/k8s-flask-webapp # DockerHub image
+        ports: # configure local traffic
+        - containerPort: 5000
+# Modified version of Kubernetes Deployment Template
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#updating-a-deployment

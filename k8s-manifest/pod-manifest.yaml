@@ -1,0 +1,11 @@
+# Pods Manifest
+apiVersion: v1
+kind: Pod
+metadata:
+  name: flaskwebapp
+spec:
+  containers:
+    - name: flaskwebapp
+      image: cheesburger/k8s-flask-webapp
+      ports:
+        - containerPort: 50

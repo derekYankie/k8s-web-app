@@ -1,0 +1,24 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: flaskwebapp-deployment
+  labels:
+    app: flask-webapp
+    tier: frontend
+spec: 
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: flask-webapp
+      tier: frontend
+  template: 
+    metadata:
+      labels:
+        app: flask-webapp
+        tier: frontend
+    spec: 
+      containers: 
+      - name: flask-container
+        image: cheesburger/k8s-flask-webapp
+        ports: 
+        - containerPort: 5000

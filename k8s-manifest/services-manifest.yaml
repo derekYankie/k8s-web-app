@@ -1,0 +1,16 @@
+# Services Manifest
+apiVersion: v1
+kind: Service
+metadata:
+  name: flaskwebapp
+  labels:
+    app: flaskwebapp
+spec:
+  ports:
+    - port: 5000
+      protocol: TCP
+      name: flaskwebapp
+  selector:
+    app: flaskwebapp
+    tier: frontend
+  type: Loadbalancer

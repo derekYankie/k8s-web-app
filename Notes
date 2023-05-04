@@ -3,3 +3,125 @@ docker images
 docker build -t k8s-flask-webapp .
 docker run -d -p 5000:5000 k8s-flask-webapp
 
+## K8s image
+cheesburger/k8s-flask-webapp
+
+## K8 commands
+minikube start --driver=docker  
+
+kubectl apply -f deployment-manifest.yaml
+
+~/k8s-web-app
+╰─ kubectl get deployments              
+NAME                     READY   UP-TO-DATE   AVAILABLE   AGE
+flaskwebapp-deployment   1/1     1            1           23s
+
+~/k8s-web-app
+╰─ kubectl get replicaset
+NAME                                DESIRED   CURRENT   READY   AGE
+flaskwebapp-deployment-58d59f745c   1         1         1       33s
+
+~/k8s-web-app
+╰─ kubectl get pods
+NAME                                     READY   STATUS    RESTARTS   AGE
+flaskwebapp-deployment-58d59f745c-85xrt   1/1     Running   0          36s
+# More Details
+~/k8s-web-app
+╰─ kubectl describe pod flaskwebapp-deployment-58d59f745c-85xrt
+Name:         flaskwebapp-deployment-58d59f745c-85xrt
+Namespace:    default
+Priority:     0
+Node:         minikube/192.168.49.2
+Start Time:   Thu, 04 May 2023 17:01:24 -0400
+Labels:       app=flask-webapp
+              pod-template-hash=58d59f745c
+              tier=frontend
+Annotations:  <none>
+Status:       Running
+IP:           10.244.0.18
+IPs:
+  IP:           10.244.0.18
+Controlled By:  ReplicaSet/flaskwebapp-deployment-58d59f745c
+Containers:
+  flask-container:
+    Container ID:   docker://2dde79e04131fccceedb7cf80d4484aa02f24f316845094d06a42592428b6cf3
+    Image:          cheesburger/k8s-flask-webapp
+    Image ID:       docker-pullable://cheesburger/k8s-flask-webapp@sha256:1055fde8601050221654d234866a8a077035501c065b89cbc62a56b5d3c818c7
+    Port:           5000/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Thu, 04 May 2023 17:01:26 -0400
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-94b87 (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-94b87:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  2m17s  default-scheduler  Successfully assigned default/flaskwebapp-deployment-58d59f745c-85xrt to minikube
+  Normal  Pulling    2m16s  kubelet            Pulling image "cheesburger/k8s-flask-webapp"
+  Normal  Pulled     2m15s  kubelet            Successfully pulled image "cheesburger/k8s-flask-webapp" in 532.4912ms (5325408ms including waiting)
+  Normal  Created    2m15s  kubelet            Created container flask-container
+  Normal  Started    2m15s  kubelet            Started container flask-container
+
+~/k8s-web-app
+╰─ kubectl describe deployment flaskwebapp-deployment
+Name:                   flaskwebapp-deployment
+Namespace:              default
+CreationTimestamp:      Thu, 04 May 2023 17:01:24 -0400
+Labels:                 app=flask-webapp
+                        tier=frontend
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               app=flask-webapp,tier=frontend
+Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=flask-webapp
+           tier=frontend
+  Containers:
+   flask-container:
+    Image:        cheesburger/k8s-flask-webapp
+    Port:         5000/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   flaskwebapp-deployment-58d59f745c (1/1 replicas created)
+Events:
+  Type    Reason             Age    From                   Message
+  ----    ------             ----   ----                   -------
+  Normal  ScalingReplicaSet  5m10s  deployment-controller  Scaled up replica set flaskwebapp-deployment-58d59f745c to 1  
+
+# Show running services
+kubectl get svc
+
+# Delete Deployment by specifying the file name
+kubectl delete -f deployment-manifest.yaml
+Output:
+deployment.apps "flaskwebapp-deployment" deleted
