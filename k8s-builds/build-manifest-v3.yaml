@@ -7,8 +7,8 @@ metadata:
     app: flask-webapp
     tier: frontend
 spec:
-  ports: # used to send web traffic to the pods on port 5000 using TCP
-  - port: 5000
+  ports: # allow web traffic to the pods on port 80 using TCP
+  - port: 80
     protocol: TCP
     name: http-loadbalancer
   selector: # finds all pods with given label below & load balances the traffic between pods
@@ -39,5 +39,5 @@ spec: # Replication controller
       containers: 
       - name: flask-container
         image: cheesburger/k8s-flask-webapp # DockerHub image
-        ports: # configure local traffic
-        - containerPort: 80
+        ports: # set port on pod
+        - containerPort: 5000
