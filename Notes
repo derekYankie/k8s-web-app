@@ -45,6 +45,7 @@ flaskwebapp-deployment-58d59f745c   1         1         1       33s
 ╰─ kubectl get pods
 NAME                                     READY   STATUS    RESTARTS   AGE
 flaskwebapp-deployment-58d59f745c-85xrt   1/1     Running   0          36s
+
 # More Details
 ~/k8s-web-app
 ╰─ kubectl describe pod flaskwebapp-deployment-58d59f745c-85xrt
